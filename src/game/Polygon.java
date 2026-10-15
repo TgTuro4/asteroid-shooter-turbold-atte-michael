@@ -72,7 +72,9 @@ class Polygon {
     return crossingNumber%2 == 1;
   }
   
-  public void rotate(int degrees) {rotation = (rotation+degrees)%360;}
+  public void rotate(int degrees) {
+    rotation = (rotation+degrees)%360;
+  }
   
   /*
   The following methods are private access restricted because, as this access
