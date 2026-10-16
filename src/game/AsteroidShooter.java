@@ -1,8 +1,8 @@
 package game;
 
 /*
-CLASS: YourGameName
-DESCRIPTION: Extending Game, YourGameName is all in the paint method.
+CLASS: AsteroidShooter
+DESCRIPTION: Extending Game, AsteroidShooter is all in the paint method.
 NOTE: This class is the metaphorical "main method" of your program,
       it is your control center.
 
@@ -10,11 +10,11 @@ NOTE: This class is the metaphorical "main method" of your program,
 import java.awt.*;
 import java.awt.event.*;
 
-class YourGameName extends Game {
+class AsteroidShooter extends Game {
 	static int counter = 0;
 
-  public YourGameName() {
-    super("YourGameName!",800,600);
+  public AsteroidShooter() {
+    super("Asteroid Shooter",800,600);
     this.setFocusable(true);
 	this.requestFocus();
   }
@@ -32,7 +32,7 @@ class YourGameName extends Game {
   }
   
 	public static void main (String[] args) {
-   		YourGameName a = new YourGameName();
+   		AsteroidShooter a = new AsteroidShooter();
 		a.repaint();
   }
 }
