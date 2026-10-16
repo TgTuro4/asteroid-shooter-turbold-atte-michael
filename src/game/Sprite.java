@@ -3,11 +3,10 @@ package game;
 public abstract class Sprite extends Collidable {
     private Polygon[] components;
     private double heading;
-    private double xPos;
-    private double yPos;
-    private double xVelocity;
-    private double yVelocity;
-    private Polygon bounds;
+    double xPos;
+    double yPos;
+    double xVelocity;
+    double yVelocity;
 
     public Polygon[] getComponents() {
         return components;
@@ -22,8 +21,7 @@ public abstract class Sprite extends Collidable {
         this.yVelocity = yVel;
     }
 
-    @Override
-    public Polygon getBounds() {
-        return bounds;
+    public double getHeading(){
+        return heading;
     }
 }
