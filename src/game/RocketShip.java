@@ -1,3 +1,6 @@
+package game;
+import java.util.ArrayList;
+
 public class RocketShip extends Sprite {
     private int health;
     private int maxHealth;
@@ -14,7 +17,6 @@ public class RocketShip extends Sprite {
         super.xPos += 1;
         updateLasers();
     }
-    
 
     public void shoot() {
         Laser newLaser = new Laser(10, 25, 60); 
@@ -45,7 +47,7 @@ public class RocketShip extends Sprite {
     }
 
     public Laser[] getActiveLasers() {
-        List<Laser> active = new ArrayList<>();
+        ArrayList<Laser> active = new ArrayList<>();
         for (Laser l : laserList) {
             if (l.isActive()) {
                 active.add(l);
@@ -53,7 +55,6 @@ public class RocketShip extends Sprite {
         }
         return active.toArray(new Laser[0]);
     }
-
     
     public class Laser {
         private int speed;
@@ -115,5 +116,17 @@ public class RocketShip extends Sprite {
         public double getLaserY() {
             return laserY;
         }
+    }
+
+    @Override
+    public void rotate(double deg) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
+    }
+
+    @Override
+    public void onCollision() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onCollision'");
     }
 }
