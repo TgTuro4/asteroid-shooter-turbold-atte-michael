@@ -71,9 +71,9 @@ public class RocketShip extends Sprite {
             this.lifetime = lifetime;
             this.isShot = true;
             
-            this.laserX = super.xPos;
-            this.laserY = super.yPos;
-            this.laserHeading = super.heading;
+            this.laserX = RocketShip.this.xPos;
+            this.laserY = RocketShip.this.yPos;
+            this.laserHeading = RocketShip.this.heading;
         }
 
         public void update() {

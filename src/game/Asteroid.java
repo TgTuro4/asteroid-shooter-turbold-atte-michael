@@ -4,6 +4,11 @@ public class Asteroid extends Sprite {
 
     private boolean alive;
 
+    public Asteroid(Polygon[] components, double xPos, double yPos) {
+        super(components, xPos, yPos);
+        alive = true;
+    }
+
     private void destroy() {
         alive = false;
     }
