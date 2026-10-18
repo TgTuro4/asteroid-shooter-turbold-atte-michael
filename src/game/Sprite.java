@@ -19,7 +19,8 @@ public abstract class Sprite extends Collidable {
 
     public abstract void rotate(double deg);
 
-    public abstract void move();
+    public abstract void moveForward();
+    public abstract void moveBackward();
 
     // Sets the sprite's velocity in the x and y directions
     // @param xVel The velocity in the x direction

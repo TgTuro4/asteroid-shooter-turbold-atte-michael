@@ -13,8 +13,15 @@ public class RocketShip extends Sprite {
         this.laserList = new ArrayList<>();
     }
 
-    public void move() {
-        super.xPos += 1;
+    public void moveForward() {
+        super.xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 5 units
+        super.yPos += Math.sin(Math.toRadians(heading)) * 1; // move forward by 5 units
+        updateLasers();
+    }
+
+    public void moveBackward() {
+        super.xPos -= Math.cos(Math.toRadians(heading)) * 1; // move backward by 5 units
+        super.yPos -= Math.sin(Math.toRadians(heading)) * 1; // move backward by 5 units
         updateLasers();
     }
 

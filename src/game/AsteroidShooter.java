@@ -28,7 +28,7 @@ class AsteroidShooter extends Game implements KeyListener {
 	}
 
 	class Round {
-		
+
 	}
 
 	@Override
@@ -37,10 +37,10 @@ class AsteroidShooter extends Game implements KeyListener {
 
 		switch (key) {
 			case KeyEvent.VK_UP:
-				// forward
+				rocket.moveForward();
 				break;
 			case KeyEvent.VK_DOWN:
-				// backward
+				rocket.moveBackward();
 				break;
 			case KeyEvent.VK_LEFT:
 				// rotate
