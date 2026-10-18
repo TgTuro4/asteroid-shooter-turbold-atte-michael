@@ -30,11 +30,5 @@ public class Asteroid extends Sprite {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'rotate'");
     }
-
-    @Override
-    public void move() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
     
 }

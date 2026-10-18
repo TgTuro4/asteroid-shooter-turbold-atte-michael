@@ -9,6 +9,7 @@ NOTE: This class is the metaphorical "main method" of your program,
 */
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 class AsteroidShooter extends Game implements KeyListener {
 	static int counter = 0;
@@ -17,7 +18,7 @@ class AsteroidShooter extends Game implements KeyListener {
     private int score;
     private RocketShip rocket;
     // private Obstacle[] obstacles;
-    private Asteroid[] asteroids;
+    private ArrayList<Asteroid> asteroids;
 	private boolean gameOver;
 
 	public AsteroidShooter() {
@@ -34,7 +35,6 @@ class AsteroidShooter extends Game implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-
 		switch (key) {
 			case KeyEvent.VK_UP:
 				rocket.moveForward();
@@ -43,46 +43,25 @@ class AsteroidShooter extends Game implements KeyListener {
 				rocket.moveBackward();
 				break;
 			case KeyEvent.VK_LEFT:
-				// rotate
+				rocket.rotate(5); // rotate left by 5 degrees
 				break;
 			case KeyEvent.VK_RIGHT:
-				// rotate
+				rocket.rotate(-5); // rotate right by 5 degrees
 				break;
 			case KeyEvent.VK_SPACE:
-				// Shoot
+				rocket.shoot();
 				break;
 		}
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
+	@Override // do not remove this method, it is required for KeyListener
+	public void keyReleased(KeyEvent e) {}
 
-		switch (key) {
-			case KeyEvent.VK_UP:
-				// stop forward
-				break;
-			case KeyEvent.VK_DOWN:
-				// stop backward
-				break;
-			case KeyEvent.VK_LEFT:
-				// stop rotate
-				break;
-			case KeyEvent.VK_RIGHT:
-				// stop rotate
-				break;
-			case KeyEvent.VK_SPACE:
-				// stop shoot
-				break;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	@Override // do not remove this method, it is required for KeyListener
+	public void keyTyped(KeyEvent e) {}
 
 	private void addAsteroid() {
-        // implementation
+		
     }
 
     private void addObstacle() {

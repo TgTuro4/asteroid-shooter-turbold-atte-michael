@@ -129,8 +129,7 @@ public class RocketShip extends Sprite {
 
     @Override
     public void rotate(double deg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
+        heading += deg;
     }
 
     @Override
