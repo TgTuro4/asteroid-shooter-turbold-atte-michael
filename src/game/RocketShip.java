@@ -13,18 +13,6 @@ public class RocketShip extends Sprite {
         this.laserList = new ArrayList<>();
     }
 
-    public void moveForward() {
-        super.xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 5 units
-        super.yPos += Math.sin(Math.toRadians(heading)) * 1; // move forward by 5 units
-        updateLasers();
-    }
-
-    public void moveBackward() {
-        super.xPos -= Math.cos(Math.toRadians(heading)) * 1; // move backward by 5 units
-        super.yPos -= Math.sin(Math.toRadians(heading)) * 1; // move backward by 5 units
-        updateLasers();
-    }
-
     public void shoot() {
         Laser newLaser = new Laser(10, 25, 60); 
         laserList.add(newLaser);
@@ -123,6 +111,20 @@ public class RocketShip extends Sprite {
         public double getLaserY() {
             return laserY;
         }
+    }
+
+    @Override 
+    public void moveForward() {
+        super.xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 5 units
+        super.yPos += Math.sin(Math.toRadians(heading)) * 1; // move forward by 5 units
+        updateLasers();
+    }
+
+    @Override 
+    public void moveBackward() {
+        super.xPos -= Math.cos(Math.toRadians(heading)) * 1; // move backward by 5 units
+        super.yPos -= Math.sin(Math.toRadians(heading)) * 1; // move backward by 5 units
+        updateLasers();
     }
 
     @Override
