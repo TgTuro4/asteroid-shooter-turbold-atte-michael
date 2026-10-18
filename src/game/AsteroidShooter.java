@@ -13,12 +13,10 @@ import java.util.ArrayList;
 
 class AsteroidShooter extends Game implements KeyListener {
 	static int counter = 0;
-	private int height;
-    private int width;
     private int score;
     private RocketShip rocket;
     // private Obstacle[] obstacles;
-    private ArrayList<Asteroid> asteroids;
+    private ArrayList<Asteroid> asteroids = new ArrayList<>();
 	private boolean gameOver;
 
 	public AsteroidShooter() {
@@ -61,7 +59,10 @@ class AsteroidShooter extends Game implements KeyListener {
 	public void keyTyped(KeyEvent e) {}
 
 	private void addAsteroid() {
-		
+		Polygon shape = new Polygon(
+			new Point[] { new Point(0, 0), new Point(10, 0), new Point(5, 10) },
+			new Point(0, 0), 0);
+		asteroids.add(new Asteroid(new Polygon[] {shape}, Math.random() * width, Math.random() * height));
     }
 
     private void addObstacle() {
