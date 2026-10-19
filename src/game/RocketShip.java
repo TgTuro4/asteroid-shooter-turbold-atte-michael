@@ -13,6 +13,8 @@ public class RocketShip extends Sprite {
     private int health;
 
     /** Maximum possible health value of the rocket ship. */
+    // TODO: Consider using in future to reset health per round or for power-ups
+    @SuppressWarnings("unused")
     private int maxHealth;
 
     /** List of all lasers fired by this rocket ship. */

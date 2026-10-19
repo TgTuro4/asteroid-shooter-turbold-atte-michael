@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Graphics;
-
 public abstract class Sprite extends Collidable {
     private Polygon[] components;
     double heading;
@@ -18,10 +16,7 @@ public abstract class Sprite extends Collidable {
         this.xVelocity = 0.0;
         this.yVelocity = 0.0;
     }
-    
-    /*
-    
-    */
+
     public void rotate(double deg) {
         heading += deg;
     }

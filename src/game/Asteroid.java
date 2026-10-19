@@ -3,13 +3,11 @@ package game;
 import java.awt.*;
 
 public class Asteroid extends Sprite {
-    private boolean alive;
-
+    
     public Asteroid(Polygon[] components, double xPos, double yPos) {
         super(components, xPos, yPos);
-        alive = true;
     }
-    
+
     public void paint(Graphics g) {
         for (Polygon component : getComponents()) {
             component.position = new Point(xPos, yPos);
@@ -24,10 +22,6 @@ public class Asteroid extends Sprite {
             g.setColor(Color.gray);
             g.fillPolygon(xPoints, yPoints, points.length);
         }
-    }
-
-    private void destroy() {
-        alive = false;
     }
 
     @Override
