@@ -133,11 +133,6 @@ public class RocketShip extends Sprite {
     }
 
     @Override
-    public void rotate(double deg) {
-        heading += deg;
-    }
-
-    @Override
     public void onCollision() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onCollision'");

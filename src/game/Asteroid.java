@@ -1,7 +1,6 @@
 package game;
 
 public class Asteroid extends Sprite {
-
     private boolean alive;
 
     public Asteroid(Polygon[] components, double xPos, double yPos) {
@@ -23,12 +22,6 @@ public class Asteroid extends Sprite {
     public void onCollision() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onCollision'");
-    }
-
-    @Override
-    public void rotate(double deg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
     }
     
 }

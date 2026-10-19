@@ -34,7 +34,12 @@ public abstract class Sprite extends Collidable {
         }
     }
 
-    public abstract void rotate(double deg);
+    /*
+    
+    */
+    public void rotate(double deg) {
+        heading += deg;
+    }
 
     public void moveForward() {
         xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 5 units

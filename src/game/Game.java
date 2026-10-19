@@ -3,7 +3,7 @@ package game;
 /*
 CLASS: Game
 DESCRIPTION: A painted canvas in its own window, updated every tenth second.
-USAGE: Extended by YourGameName.
+USAGE: Extended by AsteroidShooter.
 NOTE: You don't need to understand the details here, no fiddling neccessary.*/
 import java.awt.*;
 import java.awt.event.*;
@@ -18,16 +18,17 @@ abstract class Game extends Canvas {
 	  height = inHeight;
 	  
 	  // Frame can be read as 'window' here.
-      Frame frame = new Frame(name);
-      frame.add(this);
-      frame.setSize(width,height);
-      frame.setVisible(true);
-      frame.setResizable(false);
-      frame.addWindowListener(new WindowAdapter() { 
-        public void windowClosing(WindowEvent e) {System.exit(0);} 
-      });
-    
-      buffer = createImage(width, height);
+    // Sets up the game window
+    Frame frame = new Frame(name);
+    frame.add(this);
+    frame.setSize(width,height);
+    frame.setVisible(true);
+    frame.setResizable(false);
+    frame.addWindowListener(new WindowAdapter() { 
+      public void windowClosing(WindowEvent e) {System.exit(0);} 
+    });
+  
+    buffer = createImage(width, height);
 	}
   
   // 'paint' will be called every tenth of a second that the game is on.
