@@ -142,8 +142,18 @@ public class RocketShip extends Sprite {
         return laserList;
     }
 
-    @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        for (Polygon component : getComponents()) {
+            component.position = new Point(xPos, yPos);
+            component.rotation = heading;
+            Point[] points = component.getPoints();
+            int[] xPoints = new int[points.length];
+            int[] yPoints = new int[points.length];
+            for (int i = 0; i < points.length; i++) {
+                xPoints[i] = (int) points[i].x;
+                yPoints[i] = (int) points[i].y;
+            }
+            g.drawPolygon(xPoints, yPoints, points.length);
+        }
     }
 }
