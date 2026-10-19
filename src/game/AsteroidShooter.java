@@ -12,12 +12,25 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 class AsteroidShooter extends Game implements KeyListener {
-	private int score;
-	private RocketShip rocket;
-	private ArrayList<Asteroid> asteroids = new ArrayList<>();
-	private boolean gameOver;
-	private Round round;
+	/** Current accumulated player score. */
+    private int score;
 
+    /** Player-controlled rocket ship entity. */
+    private RocketShip rocket;
+
+    /** Collection of active asteroids currently present on screen. */
+    private ArrayList<Asteroid> asteroids = new ArrayList<>();
+
+    /** Flag indicating whether the game has ended. */
+    private boolean gameOver;
+
+    /** Active round manager instance handling time limits and round advancement. */
+    private Round round;
+
+	/**
+     * Constructs and initializes the Asteroid Shooter game environment, creating the player rocket,
+     * starting round parameters, and setting up input listeners.
+     */
 	public AsteroidShooter() {
 		super("Asteroid Shooter", 800, 600);
 		Polygon shape = new Polygon(
@@ -30,17 +43,35 @@ class AsteroidShooter extends Game implements KeyListener {
 		this.addKeyListener(this);
 	}
 
+	/**
+     * Inner class managing individual game rounds, time limits, elapsed timer tracking,
+     * and spawning asteroid scaling rules per round.
+     */
 	class Round {
-		private int roundNumber;
-		private final int timeLimit = 60; // seconds
-		private int timeRemaining;
-		private double elapsedMilliseconds;
 
+		/** Current round number, starting at 1. */
+        private int roundNumber;
+
+        /** Total duration limit for each round in seconds. */
+        private final int timeLimit = 60; // seconds
+
+        /** Remaining time left in the current round in seconds. */
+        private int timeRemaining;
+
+        /** Accumulated elapsed time in milliseconds for calculating active round progression. */
+        private double elapsedMilliseconds;
+
+		/**
+         * Constructs a new Round instance starting at round 1.
+         */
 		public Round() {
 			roundNumber = 1;
 			startRound();
 		}
 
+		/**
+         * Resets timers, clears existing asteroids, and spawns a new set scaled to the current round.
+         */
 		private void startRound() {
 			timeRemaining = timeLimit;
 			elapsedMilliseconds = 0.0;
@@ -51,6 +82,9 @@ class AsteroidShooter extends Game implements KeyListener {
 			}
 		}
 
+		/**
+         * Updates elapsed round time and handles transitions when the time limit expires.
+         */
 		public void update() {
 			if (gameOver) {
 				return;
@@ -64,6 +98,9 @@ class AsteroidShooter extends Game implements KeyListener {
 			}
 		}
 
+		/**
+         * Advances the game to the next round increment and spawns corresponding asteroids if the game is active.
+         */
 		public void nextRound() {
 			if (!gameOver) {
 				roundNumber++;
@@ -71,15 +108,30 @@ class AsteroidShooter extends Game implements KeyListener {
 			}
 		}
 
+		/**
+         * Gets the current round number.
+         *
+         * @return Current round number.
+         */
 		public int getRoundNumber() {
 			return roundNumber;
 		}
 
+		/**
+		 * Gets the remaining time in seconds for the current round.
+		 *
+		 * @return Remaining time in seconds.
+		 */
 		public int getTimeRemaining() {
 			return timeRemaining;
 		}
 	}
 
+	/**
+     * Handles keyboard press events for controlling movement, rotation, and shooting actions of the rocket.
+     *
+     * @param e {@link KeyEvent} containing detail about key pressed.
+     */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
@@ -106,12 +158,25 @@ class AsteroidShooter extends Game implements KeyListener {
 		wrapAround(rocket);
 	}
 
+	/**
+     * Required by {@link KeyListener}. Invoked when a key is released.
+     *
+     * @param e {@link KeyEvent} containing key release information.
+     */
 	@Override // do not remove this method, it is required for KeyListener
 	public void keyReleased(KeyEvent e) {}
 
+	/**
+     * Required by {@link KeyListener}. Invoked when a key is typed.
+     *
+     * @param e {@link KeyEvent} containing key typing information.
+     */
 	@Override // do not remove this method, it is required for KeyListener
 	public void keyTyped(KeyEvent e) {}
 
+	/**
+     * Spawns a new asteroid near the screen edges with random trajectory vector and velocity.
+     */
 	private void addAsteroid() {
 		Polygon shape = new Polygon(
 			new Point[] { new Point(0, 0), new Point(30, 0), new Point(15, 30) },
@@ -130,14 +195,25 @@ class AsteroidShooter extends Game implements KeyListener {
 		asteroids.add(asteroid);
 	}
 
+	/**
+     * Sets the internal state flag indicating that the game has ended.
+     */
 	private void endGame() {
 		gameOver = true;
 	}
 
+	/**
+     * Increments score counter by 100 points.
+     */
 	private void addScore() {
 		score += 100;
 	}
 
+	/**
+     * Wraps a sprite's position around screen boundaries when passing edge thresholds.
+     *
+     * @param sprite Target {@link Sprite} to wrap within visible screen dimensions.
+     */
 	private void wrapAround(Sprite sprite) {
 		if (sprite.xPos < 0) {
 			sprite.xPos += width;
@@ -151,6 +227,12 @@ class AsteroidShooter extends Game implements KeyListener {
 		}
 	}
 
+	/**
+     * Calculates bounding rectangle hitboxes for a sprite based on its constituent polygons.
+     *
+     * @param sprite Target {@link Sprite} for hitbox calculation.
+     * @return {@link Rectangle} representing overall collision boundary box.
+     */
 	private Rectangle getHitbox(Sprite sprite) {
 		Rectangle hitbox = null;
 		for (Polygon component : sprite.getComponents()) {
@@ -169,6 +251,10 @@ class AsteroidShooter extends Game implements KeyListener {
 		return hitbox == null ? new Rectangle() : hitbox;
 	}
 
+	/**
+     * Updates positions, lifetimes, active round timers, collision states 
+	 * between lasers/asteroids/rocket, and game over triggers.
+     */
 	private void updateGame() {
 		if (gameOver) {
 			return;
@@ -217,6 +303,11 @@ class AsteroidShooter extends Game implements KeyListener {
 		a.repaint();
 	}
 
+	/**
+     * Paints game entities, update status, active lasers, HUD indicators, and game over overlays.
+     *
+     * @param brush {@link Graphics} context used for drawing frame visual elements.
+     */
 	public void paint(Graphics brush) {
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, width, height);

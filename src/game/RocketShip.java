@@ -4,8 +4,10 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
- * Represents a controllable player or entity rocket ship in the game.
- * Manages health, movement, rendering, and active lasers fired by the ship.
+ * CLASS: RocketShip
+ * DESCRIPTION: Extending Sprite, RocketShip represents a controllable player rocket ship in the game and its laser.
+ * NOTE: This class controls the rocket ship's movement, health, and laser firing mechanics.
+ * 
  */
 public class RocketShip extends Sprite {
 
