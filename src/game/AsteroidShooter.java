@@ -228,30 +228,6 @@ class AsteroidShooter extends Game implements KeyListener {
 	}
 
 	/**
-     * Calculates bounding rectangle hitboxes for a sprite based on its constituent polygons.
-     *
-     * @param sprite Target {@link Sprite} for hitbox calculation.
-     * @return {@link Rectangle} representing overall collision boundary box.
-     */
-	private Rectangle getHitbox(Sprite sprite) {
-		Rectangle hitbox = null;
-		for (Polygon component : sprite.getComponents()) {
-			component.position = new Point(sprite.xPos, sprite.yPos);
-			component.rotation = sprite.getHeading();
-			java.awt.Polygon shape = new java.awt.Polygon();
-			for (Point point : component.getPoints()) {
-				shape.addPoint((int) point.x, (int) point.y);
-			}
-			if (hitbox == null) {
-				hitbox = shape.getBounds();
-			} else {
-				hitbox.add(shape.getBounds());
-			}
-		}
-		return hitbox == null ? new Rectangle() : hitbox;
-	}
-
-	/**
      * Updates positions, lifetimes, active round timers, collision states 
 	 * between lasers/asteroids/rocket, and game over triggers.
      */
@@ -265,14 +241,14 @@ class AsteroidShooter extends Game implements KeyListener {
 		}
 		round.update();
 		rocket.updateLasers();
-		Rectangle rocketHitbox = getHitbox(rocket);
+		Rectangle rocketHitbox = rocket.getHitbox();
 		for (int i = asteroids.size() - 1; i >= 0; i--) {
 			Asteroid asteroid = asteroids.get(i);
 			asteroid.rotate(5);
 			asteroid.xPos += asteroid.xVelocity;
 			asteroid.yPos += asteroid.yVelocity;
 			wrapAround(asteroid);
-			Rectangle asteroidHitbox = getHitbox(asteroid);
+			Rectangle asteroidHitbox = asteroid.getHitbox();
 			boolean destroyed = false;
 			for (RocketShip.Laser laser : rocket.getLaserList()) {
 				if (laser.isActive() && asteroidHitbox.intersects(
