@@ -18,21 +18,72 @@ class AsteroidShooter extends Game implements KeyListener {
     // private Obstacle[] obstacles;
     private ArrayList<Asteroid> asteroids = new ArrayList<>();
 	private boolean gameOver;
+	private Round round;
 
 	public AsteroidShooter() {
 		super("Asteroid Shooter", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(this);
+		round = new Round();
 	}
 
 	class Round {
+		private int roundNumber;
+		private final int timeLimit = 60; // seconds
+		private int timeRemaining;
+		private double elapsedMilliseconds;
 
+		public Round() {
+			roundNumber = 1;
+			startRound();
+		}
+
+		private void startRound() {
+			timeRemaining = timeLimit;
+			elapsedMilliseconds = 0.0;
+			asteroids.clear();
+			// Start with three asteroids and add one more each round.
+			for (int i = 0; i < roundNumber + 2; i++) {
+				addAsteroid();
+			}
+		}
+
+		public void update() {
+			if (gameOver) {
+				return;
+			}
+			// Approximate each update as 10 milliseconds, matching Game's delay.
+			elapsedMilliseconds += 10.0;
+			int elapsedSeconds = (int) (elapsedMilliseconds / 1000.0);
+			timeRemaining = Math.max(0, timeLimit - elapsedSeconds);
+			if (timeRemaining == 0) {
+				nextRound();
+			}
+		}
+
+		public void nextRound() {
+			if (!gameOver) {
+				roundNumber++;
+				startRound();
+			}
+		}
+
+		public int getRoundNumber() {
+			return roundNumber;
+		}
+
+		public int getTimeRemaining() {
+			return timeRemaining;
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
+		if (gameOver) {
+			return;
+		}
 		switch (key) {
 			case KeyEvent.VK_UP:
 				rocket.moveForward();
@@ -65,9 +116,9 @@ class AsteroidShooter extends Game implements KeyListener {
 		asteroids.add(new Asteroid(new Polygon[] {shape}, Math.random() * width, Math.random() * height));
     }
 
-    private void addObstacle() {
-        // implementation
-    }
+    // private void addObstacle() {
+    //     // implementation
+    // }
 
     private void endGame() {
         // Implementation
@@ -85,13 +136,25 @@ class AsteroidShooter extends Game implements KeyListener {
 	public void paint(Graphics brush) {
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, width, height);
+		// Game's constructor can trigger painting before initialization finishes.
+		if (round == null) {
+			return;
+		}
+		round.update();
+		for (Asteroid asteroid : asteroids) {
+			asteroid.paint(brush);
+		}
+		rocket.paint(brush);
+		for (RocketShip.Laser laser : rocket.getLaserList()) {
+			if (laser.isActive()) {
+				laser.paint(brush);
+			}
+		}
 
-		// sample code for printing message for debugging
-		// counter is incremented and this message printed
-		// each time the canvas is repainted
-		counter++;
 		brush.setColor(Color.white);
-		brush.drawString("Counter is " + counter, 10, 10);
+		brush.drawString("Score: " + score, 20, 30);
+		brush.drawString("Round: " + round.getRoundNumber(), 20, 50);
+		brush.drawString("Time: " + round.getTimeRemaining(), 20, 70);
 	}
 
 }

@@ -1,4 +1,5 @@
 package game;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class RocketShip extends Sprite {
@@ -71,6 +72,11 @@ public class RocketShip extends Sprite {
             this.laserHeading = RocketShip.this.heading;
         }
 
+        public void paint(Graphics g) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'paint'");
+        }
+
         public void update() {
             if (isShot && lifetime > 0) {
                 double rad = Math.toRadians(laserHeading);
@@ -136,5 +142,15 @@ public class RocketShip extends Sprite {
     public void onCollision() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onCollision'");
+    }
+
+    public ArrayList<Laser> getLaserList() {
+        return laserList;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'paint'");
     }
 }
