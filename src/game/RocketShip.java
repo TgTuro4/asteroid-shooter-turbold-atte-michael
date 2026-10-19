@@ -69,7 +69,7 @@ public class RocketShip extends Sprite {
     }
 
     /**
-     * Decreases the rocket ship's health by a specified amount, ensuring it does not drop below zero.
+     * Decreases the rocket ship's health by a specified amount, making sure it does not drop below zero.
      *
      * @param amount Damage amount to subtract from current health.
      * @return Updated health value after damage application.
@@ -187,7 +187,7 @@ public class RocketShip extends Sprite {
         }
 
         /**
-         * Deactivates the laser project.
+         * Deactivates the laser projectile.
          */
         public void deactivate() {
             this.isShot = false;

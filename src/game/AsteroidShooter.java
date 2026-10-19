@@ -15,7 +15,7 @@ class AsteroidShooter extends Game implements KeyListener {
 	/** Current accumulated player score. */
     private int score;
 
-    /** Player-controlled rocket ship entity. */
+    /** Player controlled rocket ship entity. */
     private RocketShip rocket;
 
     /** Collection of active asteroids currently present on screen. */
