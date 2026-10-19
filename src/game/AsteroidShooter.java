@@ -146,10 +146,10 @@ class AsteroidShooter extends Game implements KeyListener {
 				rocket.moveBackward();
 				break;
 			case KeyEvent.VK_LEFT:
-				rocket.rotate(-5); // rotate left by 5 degrees
+				rocket.rotate(-12); // rotate left by 5 degrees
 				break;
 			case KeyEvent.VK_RIGHT:
-				rocket.rotate(5); // rotate right by 5 degrees
+				rocket.rotate(12); // rotate right by 5 degrees
 				break;
 			case KeyEvent.VK_SPACE:
 				rocket.shoot();
