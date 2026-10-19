@@ -71,7 +71,7 @@ class Polygon {
     }
     return crossingNumber%2 == 1;
   }
-  
+
   public void rotate(int degrees) {
     rotation = (rotation+degrees)%360;
   }

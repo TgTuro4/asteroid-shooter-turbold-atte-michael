@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * NOTE: This class controls the rocket ship's movement, health, and laser firing mechanics.
  * 
  */
-public class RocketShip extends Sprite {
+public class RocketShip extends Sprite implements Drawable {
 
     /** Current health value of the rocket ship. */
     private int health;
@@ -100,7 +100,7 @@ public class RocketShip extends Sprite {
     /**
      * Inner class representing a projectile laser fired by a {@link RocketShip}.
      */
-    public class Laser {
+    public class Laser implements Drawable {
 
         /** Speed unit per frame travel distance. */
         private int speed;
@@ -114,11 +114,7 @@ public class RocketShip extends Sprite {
         /** Remaining duration in frames before the laser automatically expires. */
         private int lifetime;
 
-        /** Current X coordinate position of the laser. */
-        private double laserX;
-
-        /** Current Y coordinate position of the laser. */
-        private double laserY;
+        private Point laserPosition;
 
         /** Direction angle in degrees at which the laser travels. */
         private double laserHeading;
@@ -136,8 +132,7 @@ public class RocketShip extends Sprite {
             this.lifetime = lifetime;
             this.isShot = true;
             
-            this.laserX = RocketShip.this.xPos;
-            this.laserY = RocketShip.this.yPos;
+            this.laserPosition = new Point(RocketShip.this.position.x, RocketShip.this.position.y);
             this.laserHeading = RocketShip.this.heading;
         }
 
@@ -148,7 +143,8 @@ public class RocketShip extends Sprite {
          */
         public void paint(Graphics g) {
             if (isActive()) {
-                g.fillOval((int) laserX, (int) laserY, 4, 4);
+                g.setColor(java.awt.Color.white);
+                g.fillOval((int) laserPosition.x, (int) laserPosition.y, 4, 4);
             }
         }
 
@@ -158,8 +154,8 @@ public class RocketShip extends Sprite {
         public void update() {
             if (isShot && lifetime > 0) {
                 double rad = Math.toRadians(laserHeading);
-                laserX += speed * Math.cos(rad);
-                laserY += speed * Math.sin(rad);
+                laserPosition.setX(laserPosition.x + speed * Math.cos(rad));
+                laserPosition.setY(laserPosition.y + speed * Math.sin(rad));
                 lifetime--;
 
                 if (lifetime <= 0) {
@@ -202,22 +198,8 @@ public class RocketShip extends Sprite {
             return damage;
         }
 
-        /**
-         * Gets current X coordinate position of this laser projectile.
-         *
-         * @return X coordinate position.
-         */
-        public double getLaserX() {
-            return laserX;
-        }
-
-        /**
-         * Gets current Y coordinate position of this laser projectile.
-         *
-         * @return Y coordinate position.
-         */
-        public double getLaserY() {
-            return laserY;
+        public Point getPosition() {
+            return laserPosition;
         }
     }
 
@@ -225,16 +207,16 @@ public class RocketShip extends Sprite {
      * Moves the rocket ship forward relative to its current heading direction.
      */
     public void moveForward() {
-        super.xPos += Math.cos(Math.toRadians(heading)) * 12; // move forward by 1 unit
-        super.yPos += Math.sin(Math.toRadians(heading)) * 12; // move forward by 1 unit
+        super.position.x += Math.cos(Math.toRadians(heading)) * 12; // move forward by 1 unit
+        super.position.y += Math.sin(Math.toRadians(heading)) * 12; // move forward by 1 unit
     }
 
     /**
      * Moves the rocket ship backward relative to its current heading direction.
      */
     public void moveBackward() {
-        super.xPos -= Math.cos(Math.toRadians(heading)) * 12; // move backward by 1 unit
-        super.yPos -= Math.sin(Math.toRadians(heading)) * 12; // move backward by 1 unit
+        super.position.x -= Math.cos(Math.toRadians(heading)) * 12; // move backward by 1 unit
+        super.position.y -= Math.sin(Math.toRadians(heading)) * 12; // move backward by 1 unit
     }
 
     /**
@@ -253,7 +235,7 @@ public class RocketShip extends Sprite {
      */
     public void paint(Graphics g) {
         for (Polygon component : getComponents()) {
-            component.position = new Point(xPos, yPos);
+            component.position = new Point(super.position.x, super.position.y);
             component.rotation = heading;
             Point[] points = component.getPoints();
             int[] xPoints = new int[points.length];

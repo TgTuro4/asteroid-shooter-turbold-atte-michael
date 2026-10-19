@@ -6,7 +6,7 @@ import java.awt.*;
  * Represents an asteroid entity in the game environment.
  * Handles rendering of polygonal the astoeroids.
  */
-public class Asteroid extends Sprite {
+public class Asteroid extends Sprite implements Drawable {
     
     /**
      * Constructs a new Asteroid instance with specified component shapes and initial coordinates.
@@ -26,7 +26,7 @@ public class Asteroid extends Sprite {
      */
     public void paint(Graphics g) {
         for (Polygon component : getComponents()) {
-            component.position = new Point(xPos, yPos);
+            component.position = new Point(super.position.x, super.position.y);
             component.rotation = heading;
             Point[] points = component.getPoints();
             int[] xPoints = new int[points.length];

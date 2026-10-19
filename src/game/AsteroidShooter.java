@@ -153,6 +153,7 @@ class AsteroidShooter extends Game implements KeyListener {
 				break;
 			case KeyEvent.VK_SPACE:
 				rocket.shoot();
+				System.out.println(rocket.getLaserList().size());
 				break;
 		}
 		wrapAround(rocket);
@@ -165,7 +166,7 @@ class AsteroidShooter extends Game implements KeyListener {
      */
 	@Override // do not remove this method, it is required for KeyListener
 	public void keyReleased(KeyEvent e) {}
-	
+
 	/**
      * Required by {@link KeyListener}. Invoked when a key is typed.
      *
@@ -184,8 +185,8 @@ class AsteroidShooter extends Game implements KeyListener {
 		// Spawn near an edge so a new wave does not start on the rocket.
 		double x = Math.random() * (width - 30);
 		double y = Math.random() < 0.5 ? 0 : height - 30;
-		if (rocket != null && Math.abs(x - rocket.xPos) < 60
-				&& Math.abs(y - rocket.yPos) < 60) {
+		if (rocket != null && Math.abs(x - rocket.position.x) < 60
+				&& Math.abs(y - rocket.position.y) < 60) {
 			y = y == 0 ? height - 30 : 0;
 		}
 		Asteroid asteroid = new Asteroid(new Polygon[] {shape}, x, y);
@@ -215,15 +216,15 @@ class AsteroidShooter extends Game implements KeyListener {
      * @param sprite Target {@link Sprite} to wrap within visible screen dimensions.
      */
 	private void wrapAround(Sprite sprite) {
-		if (sprite.xPos < 0) {
-			sprite.xPos += width;
-		} else if (sprite.xPos >= width) {
-			sprite.xPos -= width;
+		if (sprite.position.x < 0) {
+			sprite.position.x += width;
+		} else if (sprite.position.x >= width) {
+			sprite.position.x -= width;
 		}
-		if (sprite.yPos < 0) {
-			sprite.yPos += height;
-		} else if (sprite.yPos >= height) {
-			sprite.yPos -= height;
+		if (sprite.position.y < 0) {
+			sprite.position.y += height;
+		} else if (sprite.position.y >= height) {
+			sprite.position.y -= height;
 		}
 	}
 
@@ -245,14 +246,14 @@ class AsteroidShooter extends Game implements KeyListener {
 		for (int i = asteroids.size() - 1; i >= 0; i--) {
 			Asteroid asteroid = asteroids.get(i);
 			asteroid.rotate(5);
-			asteroid.xPos += asteroid.xVelocity;
-			asteroid.yPos += asteroid.yVelocity;
+			asteroid.position.x += asteroid.xVelocity;
+			asteroid.position.y += asteroid.yVelocity;
 			wrapAround(asteroid);
 			Rectangle asteroidHitbox = asteroid.getHitbox();
 			boolean destroyed = false;
 			for (RocketShip.Laser laser : rocket.getLaserList()) {
 				if (laser.isActive() && asteroidHitbox.intersects(
-						laser.getLaserX(), laser.getLaserY(), 4, 4)) {
+						laser.getPosition().x, laser.getPosition().y, 4, 4)) {
 					laser.deactivate();
 					asteroids.remove(i);
 					addScore();
@@ -281,6 +282,8 @@ class AsteroidShooter extends Game implements KeyListener {
 
 	/**
      * Paints game entities, update status, active lasers, HUD indicators, and game over overlays.
+	 * This is also where a lambda expression is used for iterating over the asteroids collection
+	 * to render each asteroid.
      *
      * @param brush {@link Graphics} context used for drawing frame visual elements.
      */
@@ -293,9 +296,7 @@ class AsteroidShooter extends Game implements KeyListener {
 		}
 		updateGame();
 		brush.setColor(Color.white);
-		for (Asteroid asteroid : asteroids) {
-			asteroid.paint(brush);
-		}
+		asteroids.forEach(asteroid -> asteroid.paint(brush));
 		rocket.paint(brush);
 		for (RocketShip.Laser laser : rocket.getLaserList()) {
 			if (laser.isActive()) {

@@ -13,11 +13,7 @@ public abstract class Sprite {
     /** Current facing direction angle in degrees (0 degrees is due East). */
     double heading;
 
-    /** Current position along the X coordinate axis in world. */
-    double xPos;
-
-    /** Current position along the Y coordinate axis in world. */
-    double yPos;
+    Point position;
 
     /** Movement velocity vector magnitude along the X axis. */
     double xVelocity;
@@ -35,8 +31,7 @@ public abstract class Sprite {
      */
     public Sprite(Polygon[] components, double xPos, double yPos) {
         this.components = components;
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.position = new Point(xPos, yPos);
         this.heading = 0.0;
         this.xVelocity = 0.0;
         this.yVelocity = 0.0;
@@ -70,7 +65,7 @@ public abstract class Sprite {
     public Rectangle getHitbox() {
 		Rectangle hitbox = null;
 		for (Polygon component : this.getComponents()) {
-			component.position = new Point(this.xPos, this.yPos);
+			component.position = new Point(this.position.x, this.position.y);
 			component.rotation = this.getHeading();
 			java.awt.Polygon shape = new java.awt.Polygon();
 			for (Point point : component.getPoints()) {
@@ -92,6 +87,17 @@ public abstract class Sprite {
      */
     public Polygon[] getComponents() {
         return components;
+    }
+
+    public boolean collides(Polygon other) {
+        for (Polygon component : components) {
+            for (Point point : component.getPoints()) {
+                if (other.contains(point)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
