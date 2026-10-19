@@ -12,20 +12,22 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 class AsteroidShooter extends Game implements KeyListener {
-	static int counter = 0;
-    private int score;
-    private RocketShip rocket;
-    // private Obstacle[] obstacles;
-    private ArrayList<Asteroid> asteroids = new ArrayList<>();
+	private int score;
+	private RocketShip rocket;
+	private ArrayList<Asteroid> asteroids = new ArrayList<>();
 	private boolean gameOver;
 	private Round round;
 
 	public AsteroidShooter() {
 		super("Asteroid Shooter", 800, 600);
+		Polygon shape = new Polygon(
+			new Point[] { new Point(0, 0), new Point(30, 15), new Point(0, 30) },
+			new Point(0, 0), 0);
+		rocket = new RocketShip(new Polygon[] {shape}, width / 2.0, height / 2.0, 100);
+		round = new Round();
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(this);
-		round = new Round();
 	}
 
 	class Round {
@@ -81,7 +83,7 @@ class AsteroidShooter extends Game implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if (gameOver) {
+		if (gameOver || rocket == null) {
 			return;
 		}
 		switch (key) {
@@ -92,15 +94,16 @@ class AsteroidShooter extends Game implements KeyListener {
 				rocket.moveBackward();
 				break;
 			case KeyEvent.VK_LEFT:
-				rocket.rotate(5); // rotate left by 5 degrees
+				rocket.rotate(-5); // rotate left by 5 degrees
 				break;
 			case KeyEvent.VK_RIGHT:
-				rocket.rotate(-5); // rotate right by 5 degrees
+				rocket.rotate(5); // rotate right by 5 degrees
 				break;
 			case KeyEvent.VK_SPACE:
 				rocket.shoot();
 				break;
 		}
+		wrapAround(rocket);
 	}
 
 	@Override // do not remove this method, it is required for KeyListener
@@ -111,22 +114,102 @@ class AsteroidShooter extends Game implements KeyListener {
 
 	private void addAsteroid() {
 		Polygon shape = new Polygon(
-			new Point[] { new Point(0, 0), new Point(10, 0), new Point(5, 10) },
+			new Point[] { new Point(0, 0), new Point(30, 0), new Point(15, 30) },
 			new Point(0, 0), 0);
-		asteroids.add(new Asteroid(new Polygon[] {shape}, Math.random() * width, Math.random() * height));
-    }
+		// Spawn near an edge so a new wave does not start on the rocket.
+		double x = Math.random() * (width - 30);
+		double y = Math.random() < 0.5 ? 0 : height - 30;
+		if (rocket != null && Math.abs(x - rocket.xPos) < 60
+				&& Math.abs(y - rocket.yPos) < 60) {
+			y = y == 0 ? height - 30 : 0;
+		}
+		Asteroid asteroid = new Asteroid(new Polygon[] {shape}, x, y);
+		double direction = Math.random() * 2 * Math.PI;
+		double speed = 0.5 + Math.random() * 0.5;
+		asteroid.setVelocity(Math.cos(direction) * speed, Math.sin(direction) * speed);
+		asteroids.add(asteroid);
+	}
 
-    // private void addObstacle() {
-    //     // implementation
-    // }
+	private void endGame() {
+		gameOver = true;
+	}
 
-    private void endGame() {
-        // Implementation
-    }
+	private void addScore() {
+		score += 100;
+	}
 
-    private void addScore() {
-        // Implementation
-    }
+	private void wrapAround(Sprite sprite) {
+		if (sprite.xPos < 0) {
+			sprite.xPos += width;
+		} else if (sprite.xPos >= width) {
+			sprite.xPos -= width;
+		}
+		if (sprite.yPos < 0) {
+			sprite.yPos += height;
+		} else if (sprite.yPos >= height) {
+			sprite.yPos -= height;
+		}
+	}
+
+	private Rectangle getHitbox(Sprite sprite) {
+		Rectangle hitbox = null;
+		for (Polygon component : sprite.getComponents()) {
+			component.position = new Point(sprite.xPos, sprite.yPos);
+			component.rotation = sprite.getHeading();
+			java.awt.Polygon shape = new java.awt.Polygon();
+			for (Point point : component.getPoints()) {
+				shape.addPoint((int) point.x, (int) point.y);
+			}
+			if (hitbox == null) {
+				hitbox = shape.getBounds();
+			} else {
+				hitbox.add(shape.getBounds());
+			}
+		}
+		return hitbox == null ? new Rectangle() : hitbox;
+	}
+
+	private void updateGame() {
+		if (gameOver) {
+			return;
+		}
+		if (rocket.getHealth() <= 0) {
+			endGame();
+			return;
+		}
+		round.update();
+		rocket.updateLasers();
+		Rectangle rocketHitbox = getHitbox(rocket);
+		for (int i = asteroids.size() - 1; i >= 0; i--) {
+			Asteroid asteroid = asteroids.get(i);
+			asteroid.xPos += asteroid.xVelocity;
+			asteroid.yPos += asteroid.yVelocity;
+			wrapAround(asteroid);
+			Rectangle asteroidHitbox = getHitbox(asteroid);
+			boolean destroyed = false;
+			for (RocketShip.Laser laser : rocket.getLaserList()) {
+				if (laser.isActive() && asteroidHitbox.intersects(
+						laser.getLaserX(), laser.getLaserY(), 4, 4)) {
+					laser.deactivate();
+					asteroids.remove(i);
+					addScore();
+					destroyed = true;
+					break;
+				}
+			}
+			if (!destroyed && rocketHitbox.intersects(asteroidHitbox)) {
+				asteroids.remove(i);
+				rocket.takeDamage(25);
+				if (rocket.getHealth() <= 0) {
+					endGame();
+					return;
+				}
+			}
+		}
+		if (asteroids.isEmpty()) {
+			round.nextRound();
+		}
+	}
 
 	public static void main(String[] args) {
 		AsteroidShooter a = new AsteroidShooter();
@@ -137,10 +220,11 @@ class AsteroidShooter extends Game implements KeyListener {
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, width, height);
 		// Game's constructor can trigger painting before initialization finishes.
-		if (round == null) {
+		if (round == null || rocket == null) {
 			return;
 		}
-		round.update();
+		updateGame();
+		brush.setColor(Color.white);
 		for (Asteroid asteroid : asteroids) {
 			asteroid.paint(brush);
 		}
@@ -155,6 +239,10 @@ class AsteroidShooter extends Game implements KeyListener {
 		brush.drawString("Score: " + score, 20, 30);
 		brush.drawString("Round: " + round.getRoundNumber(), 20, 50);
 		brush.drawString("Time: " + round.getTimeRemaining(), 20, 70);
+		brush.drawString("Health: " + rocket.getHealth(), 20, 90);
+		if (gameOver) {
+			brush.drawString("Game Over! Final score: " + score, width / 2 - 80, height / 2);
+		}
 	}
 
 }

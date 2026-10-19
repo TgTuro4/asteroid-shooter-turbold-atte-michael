@@ -73,8 +73,9 @@ public class RocketShip extends Sprite {
         }
 
         public void paint(Graphics g) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'paint'");
+            if (isActive()) {
+                g.fillOval((int) laserX, (int) laserY, 4, 4);
+            }
         }
 
         public void update() {
@@ -123,14 +124,12 @@ public class RocketShip extends Sprite {
     public void moveForward() {
         super.xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 5 units
         super.yPos += Math.sin(Math.toRadians(heading)) * 1; // move forward by 5 units
-        updateLasers();
     }
 
     @Override 
     public void moveBackward() {
         super.xPos -= Math.cos(Math.toRadians(heading)) * 1; // move backward by 5 units
         super.yPos -= Math.sin(Math.toRadians(heading)) * 1; // move backward by 5 units
-        updateLasers();
     }
 
     @Override
@@ -150,7 +149,6 @@ public class RocketShip extends Sprite {
 
     @Override
     public void paint(Graphics g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'paint'");
+        super.paint(g);
     }
 }

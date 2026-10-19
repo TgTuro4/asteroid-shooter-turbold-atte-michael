@@ -19,7 +19,20 @@ public abstract class Sprite extends Collidable {
         this.yVelocity = 0.0;
     }
 
-    public abstract void paint(Graphics g);
+    public void paint(Graphics g) {
+        for (Polygon component : components) {
+            component.position = new Point(xPos, yPos);
+            component.rotation = heading;
+            Point[] points = component.getPoints();
+            int[] xPoints = new int[points.length];
+            int[] yPoints = new int[points.length];
+            for (int i = 0; i < points.length; i++) {
+                xPoints[i] = (int) points[i].x;
+                yPoints[i] = (int) points[i].y;
+            }
+            g.drawPolygon(xPoints, yPoints, points.length);
+        }
+    }
 
     public abstract void rotate(double deg);
 
