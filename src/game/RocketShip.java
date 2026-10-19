@@ -222,7 +222,6 @@ public class RocketShip extends Sprite {
     /**
      * Moves the rocket ship forward relative to its current heading direction.
      */
-    @Override 
     public void moveForward() {
         super.xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 1 unit
         super.yPos += Math.sin(Math.toRadians(heading)) * 1; // move forward by 1 unit
@@ -231,7 +230,6 @@ public class RocketShip extends Sprite {
     /**
      * Moves the rocket ship backward relative to its current heading direction.
      */
-    @Override 
     public void moveBackward() {
         super.xPos -= Math.cos(Math.toRadians(heading)) * 1; // move backward by 1 unit
         super.yPos -= Math.sin(Math.toRadians(heading)) * 1; // move backward by 1 unit

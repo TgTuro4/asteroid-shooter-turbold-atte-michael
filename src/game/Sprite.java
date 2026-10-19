@@ -21,16 +21,6 @@ public abstract class Sprite extends Collidable {
         heading += deg;
     }
 
-    public void moveForward() {
-        xPos += Math.cos(Math.toRadians(heading)) * 1; // move forward by 5 units
-        yPos += Math.sin(Math.toRadians(heading)) * 1; // move forward by 5 units
-    }
-
-    public void moveBackward() {
-        xPos -= Math.cos(Math.toRadians(heading)) * 1; // move backward by 5 units
-        yPos -= Math.sin(Math.toRadians(heading)) * 1; // move backward by 5 units
-    }
-
     // Sets the sprite's velocity in the x and y directions
     // @param xVel The velocity in the x direction
     // @param yVel The velocity in the y direction
