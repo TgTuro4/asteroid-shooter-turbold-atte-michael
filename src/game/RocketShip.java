@@ -238,17 +238,6 @@ public class RocketShip extends Sprite {
     }
 
     /**
-     * Handles collision events for this ship.
-     *
-     * 
-     */
-    @Override
-    public void onCollision() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onCollision'");
-    }
-
-    /**
      * Retrieves the internal list containing all active and inactive laser instances.
      *
      * @return {@link ArrayList} of {@link Laser} objects.

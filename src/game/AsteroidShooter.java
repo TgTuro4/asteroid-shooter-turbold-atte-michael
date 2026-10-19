@@ -165,7 +165,7 @@ class AsteroidShooter extends Game implements KeyListener {
      */
 	@Override // do not remove this method, it is required for KeyListener
 	public void keyReleased(KeyEvent e) {}
-
+	
 	/**
      * Required by {@link KeyListener}. Invoked when a key is typed.
      *

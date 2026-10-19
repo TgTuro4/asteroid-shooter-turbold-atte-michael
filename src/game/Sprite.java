@@ -5,9 +5,8 @@ import java.awt.*;
 /**
  * Abstract base class representing a 2D game object composed of polygon components.
  * Manages positioning, heading, velocities, and rotation behavior.
- * Extends {@link Collidable} to support collision interaction logic.
  */
-public abstract class Sprite extends Collidable {
+public abstract class Sprite {
     /** Polygon shapes that visually and structurally compose this sprite. */
     private Polygon[] components;
 

@@ -23,17 +23,4 @@ public class Asteroid extends Sprite {
             g.fillPolygon(xPoints, yPoints, points.length);
         }
     }
-
-    @Override
-    public boolean checkCollision(Collidable other) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkCollision'");
-    }
-
-    @Override
-    public void onCollision() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onCollision'");
-    }
-    
 }
