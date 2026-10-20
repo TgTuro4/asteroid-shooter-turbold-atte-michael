@@ -5,7 +5,6 @@ CLASS: AsteroidShooter
 DESCRIPTION: Extending Game, AsteroidShooter is all in the paint method.
 NOTE: This class is the metaphorical "main method" of your program,
       it is your control center.
-
 */
 import java.awt.*;
 import java.awt.event.*;
