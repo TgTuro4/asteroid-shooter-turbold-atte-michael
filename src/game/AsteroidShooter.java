@@ -153,7 +153,6 @@ class AsteroidShooter extends Game implements KeyListener {
 				break;
 			case KeyEvent.VK_SPACE:
 				rocket.shoot();
-				System.out.println(rocket.getLaserList().size());
 				break;
 		}
 		wrapAround(rocket);
@@ -261,7 +260,7 @@ class AsteroidShooter extends Game implements KeyListener {
 					break;
 				}
 			}
-			if (!destroyed && rocketHitbox.intersects(asteroidHitbox)) {
+			if (!destroyed && asteroid.collides(rocket)) {
 				asteroids.remove(i);
 				rocket.takeDamage(25);
 				if (rocket.getHealth() <= 0) {

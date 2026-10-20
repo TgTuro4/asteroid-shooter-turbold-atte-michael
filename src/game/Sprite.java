@@ -89,6 +89,17 @@ public abstract class Sprite {
         return components;
     }
 
+    public boolean collides(Sprite other) {
+        boolean collides = false;
+        for (Polygon component : other.getComponents()) {
+            collides = collides(component);
+            if (collides) {
+                break;
+            }
+        }
+        return collides;
+    }
+
     public boolean collides(Polygon other) {
         for (Polygon component : components) {
             for (Point point : component.getPoints()) {
