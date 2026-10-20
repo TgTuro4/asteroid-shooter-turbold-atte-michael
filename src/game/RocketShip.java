@@ -14,11 +14,6 @@ public class RocketShip extends Sprite implements Drawable {
     /** Current health value of the rocket ship. */
     private int health;
 
-    /** Maximum possible health value of the rocket ship. */
-    // TODO: Consider using in future to reset health per round or for power-ups
-    @SuppressWarnings("unused")
-    private int maxHealth;
-
     /** List of all lasers fired by this rocket ship. */
     private ArrayList<Laser> laserList;
 
@@ -32,7 +27,6 @@ public class RocketShip extends Sprite implements Drawable {
      */
     public RocketShip(Polygon[] components, double xPos, double yPos, int maxHealth) {
         super(components, xPos, yPos);
-        this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.laserList = new ArrayList<>();
     }

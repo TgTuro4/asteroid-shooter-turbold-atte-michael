@@ -13,6 +13,7 @@ public abstract class Sprite {
     /** Current facing direction angle in degrees (0 degrees is due East). */
     double heading;
 
+    /** Current position of the sprite in world space. */
     Point position;
 
     /** Movement velocity vector magnitude along the X axis. */
@@ -89,6 +90,12 @@ public abstract class Sprite {
         return components;
     }
 
+    /**
+     * Checks if this sprite collides with another sprite.
+     *
+     * @param other The other sprite to check for collision.
+     * @return true if the sprites collide, false otherwise.
+     */
     public boolean collides(Sprite other) {
         boolean collides = false;
         for (Polygon component : other.getComponents()) {
@@ -100,6 +107,11 @@ public abstract class Sprite {
         return collides;
     }
 
+    /**
+     * Checks if this sprite collides with a specific polygon.
+     * @param other The polygon to check for collision.
+     * @return true if the sprite collides with the polygon, false otherwise.
+     */
     public boolean collides(Polygon other) {
         for (Polygon component : components) {
             for (Point point : component.getPoints()) {

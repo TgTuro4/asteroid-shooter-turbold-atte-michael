@@ -241,7 +241,6 @@ class AsteroidShooter extends Game implements KeyListener {
 		}
 		round.update();
 		rocket.updateLasers();
-		Rectangle rocketHitbox = rocket.getHitbox();
 		for (int i = asteroids.size() - 1; i >= 0; i--) {
 			Asteroid asteroid = asteroids.get(i);
 			asteroid.rotate(5);
