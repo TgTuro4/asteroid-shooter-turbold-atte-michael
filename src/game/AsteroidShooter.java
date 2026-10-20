@@ -11,6 +11,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+/**
+ * AsteroidShooter is the main game class that handles core game logic, rendering,
+ * update loops, and user input. It extends the Game class and implements Keylistener
+ * for user input.
+ */
 class AsteroidShooter extends Game implements KeyListener {
 	/** Current accumulated player score. */
     private int score;
