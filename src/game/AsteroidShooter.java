@@ -254,8 +254,7 @@ class AsteroidShooter extends Game implements KeyListener {
 			Rectangle asteroidHitbox = asteroid.getHitbox();
 			boolean destroyed = false;
 			for (RocketShip.Laser laser : rocket.getLaserList()) {
-				if (laser.isActive() && asteroidHitbox.intersects(
-						laser.getPosition().x, laser.getPosition().y, 4, 4)) {
+				if (laser.isActive() && asteroidHitbox.contains(laser.getPosition().x, laser.getPosition().y)) {
 					laser.deactivate();
 					asteroids.remove(i);
 					addScore();

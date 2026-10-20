@@ -108,6 +108,7 @@ public class RocketShip extends Sprite implements Drawable {
         /** Remaining duration in frames before the laser automatically expires. */
         private int lifetime;
 
+        /** Current position of the laser projectile. */
         private Point laserPosition;
 
         /** Direction angle in degrees at which the laser travels. */
@@ -192,6 +193,11 @@ public class RocketShip extends Sprite implements Drawable {
             return damage;
         }
 
+        /**
+         * Gets the current position of the laser projectile.
+         *
+         * @return {@link Point} representing the laser's current coordinates.
+         */ 
         public Point getPosition() {
             return laserPosition;
         }
